@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+
+<!-- ======================================================================= -->
+<!-- MicroIE4J                                                               -->
+<!-- Really tiny inference engine                          					-->
+<!-- ======================================================================= -->
+
+<project name="MicroIE4J" default="compile" basedir=".">
+	<property name="app.name" value="MicroIE4J" />
+	<property name="app.version" value="1.0" />
+
+	<property name="basedir" value="." />
+	<property name="classes.dir" value="${basedir}/classes" />
+
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="javadoc.dir" value="${basedir}/docs/javadoc" />
+	<property name="app.jar" value="${basedir}/${app.name}-${app.version}.jar" />
+
+	<property name="compile.debug" value="on" />
+	<property name="compile.deprecation" value="on" />
+	<property name="complle.optimize" value="on" />
+	
+	<path id="build.classpath">
+		<fileset dir="${classes.dir}">
+			<include name="/**/*.class" />
+		</fileset>
+	</path>
+
+	<target name="compile" >
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${compile.debug}" 
+			deprecation="${compile.deprecation}" optimize="${optimize}" target="1.5">
+			<classpath refid="build.classpath" />
+		</javac>
+		<!--  make a jar in the root directory -->
+		<jar file="${app.jar}" basedir="${classes.dir}" />
+	</target>
+
+	<target name="javadoc" depends="compile" description="Creates the API documentation">
+		<mkdir dir="${javadoc.dir}" />
+		<javadoc packagenames="org.*" destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="${app.name} ${version} API" doctitle="${app.name} ${version} API" sourcepath="./src">
+			<classpath refid="build.classpath" />
+		</javadoc>
+	</target>
+
+</project>
